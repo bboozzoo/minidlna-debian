@@ -1,3 +1,12 @@
+minidlna (1.1.6+dfsg-1maciek1) unstable; urgency=low
+
+  * debian/minidlna.links: symlink minidlnad to minidlna
+  * debian/compat: decrease debhelper compatibility version to 8
+  * debian/rules: set netgear specific flags
+  * debian/patches: drop 01-run-instead-of-var-run
+
+ -- Maciek Borzecki <maciek.borzecki@gmail.com>  Sun, 05 Feb 2017 14:25:05 +0100
+
 minidlna (1.1.6+dfsg-1) unstable; urgency=medium
 
   * debian/minidlna.conf: Fix default values and update comments.
