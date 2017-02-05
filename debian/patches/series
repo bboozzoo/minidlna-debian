@@ -1,4 +1,3 @@
-01-run-instead-of-var-run.patch
 02-use-USER-instead-of-LOGNAME.patch
 03-make-sure-the-database-is-closed-after-scanning.patch
 04-reload-log-file-on-SIGUSR2.patch
