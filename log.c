@@ -29,6 +29,7 @@
 #include "log.h"
 
 static FILE *log_fp = NULL;
+static char *log_filename = NULL;
 static const int _default_log_level = E_WARN;
 int log_level[L_MAX];
 
@@ -59,8 +60,14 @@ const char *level_name[] = {
 void
 log_close(void)
 {
-	if (log_fp)
+	if (log_fp) {
 		fclose(log_fp);
+		log_fp = NULL;
+	}
+	if (log_filename) {
+		free(log_filename);
+		log_filename = NULL;
+	}
 }
 
 int find_matching_name(const char* str, const char* names[]) {
@@ -79,7 +86,6 @@ int
 log_init(const char *fname, const char *debug)
 {
 	int i;
-	FILE *fp;
 
 	int level = find_matching_name(debug, level_name);
 	int default_log_level = (level == -1) ? _default_log_level : level;
@@ -120,9 +126,26 @@ log_init(const char *fname, const char *debug)
 	if (!fname)					// use default i.e. stdout
 		return 0;
 
-	if (!(fp = fopen(fname, "a")))
+	if (!(log_filename = strdup(fname)))
 		return 1;
-	log_fp = fp;
+
+	if (!(log_fp = fopen(log_filename, "a")))
+		return 1;
+
+	return 0;
+}
+
+int
+log_reopen(void)
+{
+	if (log_fp)
+	{
+		fclose(log_fp);
+		log_fp = NULL;
+	}
+	if (log_filename)
+		if (!(log_fp = fopen(log_filename, "a")))
+			return 1;
 	return 0;
 }
 

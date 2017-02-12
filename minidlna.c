@@ -166,6 +166,15 @@ sigusr1(int sig)
 }
 
 static void
+sigusr2(int sig)
+{
+	signal(sig, sigusr2);
+	DPRINTF(E_WARN, L_GENERAL, "received signal %d, reload log\n", sig);
+
+	log_reopen();
+}
+
+static void
 sighup(int sig)
 {
 	signal(sig, sighup);
@@ -240,7 +249,7 @@ getfriendlyname(char *buf, int len)
 	fclose(info);
 #else
 	char * logname;
-	logname = getenv("LOGNAME");
+	logname = getenv("USER");
 #ifndef STATIC // Disable for static linking
 	if (!logname)
 	{
@@ -352,6 +361,7 @@ rescan:
 		open_db(&db);
 		if (*scanner_pid == 0) /* child (scanner) process */
 		{
+			open_db(&db);
 			start_scanner();
 			sqlite3_close(db);
 			log_close();
@@ -365,6 +375,7 @@ rescan:
 		}
 #else
 		start_scanner();
+		sqlite3_close(db);
 #endif
 	}
 }
@@ -737,10 +748,7 @@ init(int argc, char **argv)
 	}
 	if (log_path[0] == '\0')
 	{
-		if (db_path[0] == '\0')
 			strncpyt(log_path, DEFAULT_LOG_PATH, PATH_MAX);
-		else
-			strncpyt(log_path, db_path, PATH_MAX);
 	}
 	if (db_path[0] == '\0')
 		strncpyt(db_path, DEFAULT_DB_PATH, PATH_MAX);
@@ -869,11 +877,13 @@ init(int argc, char **argv)
 
 	if (runtime_vars.port <= 0)
 	{
-		printf("Usage:\n\t"
-			"%s [-d] [-v] [-f config_file] [-p port]\n"
-			"\t\t[-i network_interface] [-u uid_to_run_as]\n"
+		DPRINTF(E_ERROR, L_GENERAL, "Usage:\n\t"
+		        "%s [-d] [-v] [-f config_file]\n"
+			"\t\t[-a listening_ip] [-i network_interface]\n"
+			/*"[-l logfile] " not functionnal */
+			"\t\t[-p port] [-s serial] [-m model_number]\n"
 			"\t\t[-t notify_interval] [-P pid_filename]\n"
-			"\t\t[-s serial] [-m model_number]\n"
+			"\t\t[-u uid_to_run_as]\n"
 #ifdef __linux__
 			"\t\t[-w url] [-R] [-L] [-S] [-V] [-h]\n"
 #else
@@ -959,6 +969,8 @@ init(int argc, char **argv)
 	sa.sa_handler = process_handle_child_termination;
 	if (sigaction(SIGCHLD, &sa, NULL))
 		DPRINTF(E_FATAL, L_GENERAL, "Failed to set %s handler. EXITING.\n", "SIGCHLD");
+	if (signal(SIGUSR2, &sigusr2) == SIG_ERR)
+		DPRINTF(E_FATAL, L_GENERAL, "Failed to set %s handler. EXITING.\n", "SIGUSR2");
 
 	if (writepidfile(pidfilename, pid, uid) != 0)
 		pidfilename = NULL;
