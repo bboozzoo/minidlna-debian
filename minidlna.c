@@ -677,6 +677,10 @@ init(int argc, char **argv)
 			if (strtobool(ary_options[i].value))
 				SETFLAG(TIVO_MASK);
 			break;
+		case ALLOW_SEARCH:
+			if ((strcmp(ary_options[i].value, "yes") == 0) || atoi(ary_options[i].value))
+				SETFLAG(ALLOW_SEARCH_MASK);
+			break;
 		case ENABLE_DLNA_STRICT:
 			if (strtobool(ary_options[i].value))
 				SETFLAG(DLNA_STRICT_MASK);
