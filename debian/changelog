@@ -1,3 +1,9 @@
+minidlna (1.1.6+dfsg-1maciek2) unstable; urgency=low
+
+  * Rebuild with libavformat53
+
+ -- Maciek Borzecki <maciek@nas-BF-0F-C4>  Thu, 23 Feb 2017 20:13:02 +0100
+
 minidlna (1.1.6+dfsg-1maciek1) unstable; urgency=low
 
   * debian/minidlna.links: symlink minidlnad to minidlna
