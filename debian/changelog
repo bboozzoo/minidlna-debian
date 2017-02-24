@@ -1,3 +1,9 @@
+minidlna (1.1.6+dfsg-1maciek3) unstable; urgency=low
+
+  * Fix cache ownership fix in postinst
+
+ -- Maciek Borzecki <maciek.borzecki@gmail.com>  Fri, 24 Feb 2017 20:30:07 +0100
+
 minidlna (1.1.6+dfsg-1maciek2) unstable; urgency=low
 
   * Rebuild with libavformat53
