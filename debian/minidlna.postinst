@@ -23,7 +23,7 @@ setup_user() {
 setup_cache() {
 	if [ ! -d "${CACHE_DIR}" ];then
 		mkdir -p "${CACHE_DIR}"
-		chown ${USER}:${USER} "${CACHE_DIR}"
+		chown -R ${USER}:${USER} "${CACHE_DIR}"
 		chmod 750 "${CACHE_DIR}"
 	fi
 }
@@ -43,7 +43,7 @@ fix_permissions() {
 	# so we should fix them here.
 	chown root:root /etc/minidlna.conf
 	if [ -d "${CACHE_DIR}" ];then
-		chown ${USER}:${USER} "${CACHE_DIR}"
+		chown -R ${USER}:${USER} "${CACHE_DIR}"
 		chmod 750 "${CACHE_DIR}"
 	fi
 }
@@ -56,9 +56,9 @@ if [ "$ACTION" = configure ];then
 
 	if dpkg --compare-versions "$OLD_VERSION" lt-nl 1.1.5; then
 		fix_statoverride
-		fix_permissions
 	fi
 
+	fix_permissions
 	setup_cache
 fi
 
