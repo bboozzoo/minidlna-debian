@@ -1,3 +1,39 @@
+minidlna (1.2.1+dfsg-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Alexander GQ Gerasiov <gq@debian.org>  Sun, 27 Aug 2017 01:12:26 +0300
+
+minidlna (1.2.0+dfsg-2) unstable; urgency=medium
+
+  * debian/minidlnad.1: Mention -r option.
+  * debian/minidlna.default: Add -r option. Thanks to Dirk Schmitt for
+    suggestion. (Closes: #870868).
+  * debian/NEWS: Mention -r option in defaults.
+  * debian/copyright: Fix avahi.? entry.
+  * minidlna.conf, minidlna.conf.5: Add new tivo_discovery option.
+  * debian/minidlna.conf.5: Small fixes.
+
+ -- Alexander GQ Gerasiov <gq@debian.org>  Sun, 13 Aug 2017 19:17:06 +0300
+
+minidlna (1.2.0+dfsg-1) unstable; urgency=medium
+
+  * 11-http-parse.patch removed: fixed upstream.
+  * 12-libavformat-57.patch removed: fixed upstream.
+  * debian/patches refreshed.
+  * debian/copyright updated.
+  * Bump Standards-Version to 4.0.0 (no additional changes needed).
+
+ -- Alexander GQ Gerasiov <gq@debian.org>  Fri, 04 Aug 2017 22:50:21 +0300
+
+minidlna (1.1.6+dfsg-2) unstable; urgency=medium
+
+  * minidlna.conf, minidlna.conf.5: Clarify meaning of user and uuid options.
+    (Closes: #854802)
+  * minidlna.conf.5: Fix format issue with network_interface option.
+  * Fix typos in debian/NEWS (Closes: #858012).
+  * minidlna.conf.5: Fix warnings (thanks, Lintian).
+
 minidlna (1.1.6+dfsg-1maciek3) unstable; urgency=low
 
   * Fix cache ownership fix in postinst
