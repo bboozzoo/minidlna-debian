@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Alexander GQ Gerasiov <gq@debian.org>
 Build-Depends: autopoint,
-               debhelper (>= 9),
+               debhelper (>= 8),
                dh-autoreconf,
                libavcodec-dev,
                libavformat-dev,
